@@ -1,41 +1,27 @@
-# MyReads 项目
+# MyReads 图书跟踪应用
 
-## 立即开始
+## 应用简介
 
+MyReads 是一款图书跟踪应用，你可以用它搜索、预览来自全球各地图书馆和出版商的千百万册图书，并挑选你喜欢的图书加入到自己的阅读计划中
+
+## 应用安装及部署
+
+- 克隆或下载本项目
 - 使用 `npm install` 安装所有项目依赖项
 - 使用 `npm start` 启动开发服务器
+- 使用 `npm run build` 打包发布项目
 
 > 如你安装了 Yarn，可使用 `yarn` 来代替上述代码中的 `npm`
 
-## 文件结构
+## 开始使用
 
-```bash
-├── README.md # 该文件。
-├── SEARCH_TERMS.md # 可用于搜索字词的白名单简短集合
-├── package.json
-├── public
-│   ├── favicon.ico
-│   └── index.html
-└── src
-    ├── App.css # APP 风格样式文件
-    ├── App.js # app 主文件
-    ├── App.test.js # 测试文件
-    ├── BooksAPI.js # 后端 JavaScript API (by Udacity)
-    ├── booksItem.js # 生成书籍列表项
-    ├── listBooks.js # 分类展示书籍列表
-    ├── searchBooks.js # 书籍搜索
-    ├── icons # 应用程序的图片
-    │   ├── add.svg
-    │   ├── arrow-back.svg
-    │   └── arrow-drop-down.svg
-    ├── index.css # 通用风格
-    └── index.js # 入口文件
-```
+  应用共包含两个栏目：
 
-## 重要提示
+  1. **阅读计划：** 包含“Currently Reading（正在阅读）”、“Want to Read（想要阅读）”和“Read（已读）”三个书架以及对应的图书，每本图书右下角有一个控件，你可以根据实际需要变更图书的所在书架，或从阅读计划里移除图书。
+  2. **图书搜索：** 通过点击 **阅读计划** 页面右下角的“+”号图标可进入本栏目。你可通过键入关键词来搜索图书，并可将搜索结果里的图书加入阅读计划相关分类。
 
-后端 API 使用一组固定的缓存搜索结果，仅限于一组特定的搜索字词，可以在[SEARCH_TERMS.md](SEARCH_TERMS.md)中找到。 这个术语列表是与后端一起使用的_only_术语，所以如果你对“Basket Weaving”或“Bubble Wrap”的搜索没有任何结果返回，请不用惊讶。
+  > 重要提示：图书搜索功能仅限于搜索一组特定的字词，本项目支持的搜索关键词请参照 [SEARCH_TERMS.md](SEARCH_TERMS.md)。
 
-## 构建 React 应用程序
+## 未来
 
-该项目由 [Create React App](https://github.com/facebookincubator/create-react-app) 引导创建
+- 增设图书详情页，点击图书可查看图书的描述、页码数、语言、发表时间等信息，并提供图书的预览网页入口
