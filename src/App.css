@@ -177,6 +177,11 @@ button:active {
   box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
 }
 
+.book-shelf-changer.is-loading {
+  cursor: not-allowed;
+  background-image: url('./icons/loading.svg');
+}
+
 .book-shelf-changer select {
   width: 100%;
   height: 100%;

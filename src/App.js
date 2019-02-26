@@ -48,7 +48,7 @@ class BooksApp extends React.Component {
    * @param {string} targetShelf - 目标书架名称
    */
   updateBookshelf(book, targetShelf) {
-    BooksAPI.update(book, targetShelf).then(shelves => {
+    return BooksAPI.update(book, targetShelf).then(shelves => {
       this.setState(() => {
         return {
           bookshelves: this.state.bookshelves.map(shelf => {

@@ -2,6 +2,10 @@ import React, { Component } from 'react'
 
 // 生成书籍列表项：ol.books-grid
 class BooksItem extends Component {
+  state = {
+    movingBooks: []
+  }
+
   /**
    * 书籍所在书架变更事件
    * @param {object} book - 当前书籍对象
@@ -10,11 +14,30 @@ class BooksItem extends Component {
   onShelfChange(book, value) {
     value = value.trim();
 
+    this.setState((state) => state.movingBooks.push(book.id))
+
     if (this.props.onDelSearchedBook) {
       this.props.onDelSearchedBook(book)
+      this.setMovingBooks.call(this, book.id)
     }
 
-    this.props.updateBookshelf(book, value)
+    this.props.updateBookshelf(book, value).then(() => {
+      this.setMovingBooks.call(this, book.id)
+    })
+  }
+
+  setMovingBooks(bookId) {
+    this.setState((state) => {
+      return {
+        movingBooks: state.movingBooks.filter(id => id !== bookId)
+      }
+    })
+  }
+
+  getLoadingCls(bookId) {
+    return this.state.movingBooks.includes(bookId)
+      ? 'is-loading'
+      : ''
   }
 
   /**
@@ -26,7 +49,7 @@ class BooksItem extends Component {
     let value = 'move';
 
     for (let shelf of bookshelves) {
-      if (shelf.books.filter(book => book.id === bookId).length) {
+      if (shelf.books.find(book => book.id === bookId)) {
         value = shelf.tag;
         break
       }
@@ -51,11 +74,12 @@ class BooksItem extends Component {
                       url("./favicon.ico")`  // 缺省图片，当封面图加载后会被覆盖掉
                   }
                 }></div>
-                <div className="book-shelf-changer">
+                <div className={`book-shelf-changer ${this.getLoadingCls(book.id)}`}>                
                   <select
                     // 初始化赋值
                     value={book.shelf || this.getChangerVal(book.id, this.props.shelves)}
                     onChange={(event) => this.onShelfChange(book, event.target.value)}
+                    disabled={!!this.getLoadingCls(book.id)}
                   >
                     <option value="move" disabled>Move to...</option>
 
