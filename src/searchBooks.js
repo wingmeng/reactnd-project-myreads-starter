@@ -11,7 +11,7 @@ class SearchBooks extends Component {
     total: null
   }
 
-  onSearch(e, handle) {
+  handleChange = debounce((e) => {
     let input = e.target;
     let value = input.value.trim();
 
@@ -23,27 +23,20 @@ class SearchBooks extends Component {
       return
     }
 
-    // 节流处理
     if (!this.state.searching) {
       this.setState({ searching: true });
 
-      setTimeout(() => {
-        handle(value, (data) => {
-          this.setState({ searching: false });  // 返回数据，重置搜索状态标记
-
-          // 接口返回后再判断一次输入框内容
-          // 场景：用户未等接口返回数据，就快速清空了输入框
-          if (input.value.trim() === '') {
-            this.setState({ total: null })
-            return
+      this.updateQuery(value, (data) => {
+        this.setState(() => {
+          return {
+            searchedBooks: data,
+            searching: false,
+            total: data.length
           }
-
-          this.setState({ searchedBooks: data })
-          this.setState({ total: data.length })
         })
-      }, 300)
+      })
     }
-  }
+  })
 
   // 搜索书籍
   updateQuery(query, complete) {
@@ -72,7 +65,8 @@ class SearchBooks extends Component {
             <input
               type="text"
               placeholder="Search by title or author"
-              onChange={(event) => this.onSearch(event, this.updateQuery)}
+              // onChange={(event) => this.onSearch(event, this.updateQuery)}
+              onChange={this.handleChange}
             />
           </div>
         </div>
@@ -98,6 +92,23 @@ class SearchBooks extends Component {
         </div>
       </div>
     )
+  }
+}
+
+// 防抖函数
+function debounce(func, delay = 380) {
+  let timer;
+
+  return function(event) {
+    clearTimeout(timer)
+
+    // 保留对事件的引用
+    // 参考自：https://blog.csdn.net/qq_37860930/article/details/83545473
+    event.persist && event.persist()
+
+    timer = setTimeout(() => {
+      func(event)
+    }, delay)
   }
 }
 
