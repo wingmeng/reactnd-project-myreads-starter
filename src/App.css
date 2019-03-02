@@ -192,8 +192,10 @@ button:active {
 /* book cover */
 
 .book-cover {
+  display: block;
   box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
   background: #eee center no-repeat;
+  background-size: contain, 64px;
 }
 
 .book-cover-title {

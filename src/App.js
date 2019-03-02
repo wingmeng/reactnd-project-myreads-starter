@@ -1,7 +1,8 @@
 import React from 'react'
-import { Route, Link } from 'react-router-dom'
+import { Route, Link, Switch } from 'react-router-dom'
 import ListBooks from './listBooks'
 import SearchBooks from './searchBooks'
+import Error_404 from './error_404'
 import * as BooksAPI from './BooksAPI'
 import './App.css'
 
@@ -73,39 +74,42 @@ class BooksApp extends React.Component {
   render() {
     return (
       <div className="app">
-        <Route exact path="/" render={() => (
-          <div className="list-books">
-            <div className="list-books-title">
-              <h1>MyReads</h1>
-            </div>
-            <div className="list-books-content">
-              {/* 根据 bookshelves，生成对应数量的书架 */}
-              {this.state.bookshelves.map((bookshelf, idx, arr) => (
-                <ListBooks key={bookshelf.tag}
-                  shelf={bookshelf}
-                  shelves={arr}  // 用于生成书籍右下角的书架 select
+        <Switch>
+          <Route exact path="/" render={() => (
+            <div className="list-books">
+              <div className="list-books-title">
+                <h1>MyReads</h1>
+              </div>
+              <div className="list-books-content">
+                {/* 根据 bookshelves，生成对应数量的书架 */}
+                {this.state.bookshelves.map((bookshelf, idx, arr) => (
+                  <ListBooks key={bookshelf.tag}
+                    shelf={bookshelf}
+                    shelves={arr}  // 用于生成书籍右下角的书架 select
 
-                  // 传递父级函数给子组件调用
-                  // 注：ES6 的箭头函数会传递当前组件的 this 执行上下文
-                  updateBookshelf={(book, targetShelf) => (
-                    this.updateBookshelf(book, targetShelf)
-                  )}
-                />
-              ))}
+                    // 传递父级函数给子组件调用
+                    // 注：ES6 的箭头函数会传递当前组件的 this 执行上下文
+                    updateBookshelf={(book, targetShelf) => (
+                      this.updateBookshelf(book, targetShelf)
+                    )}
+                  />
+                ))}
+              </div>
+              <div className="open-search">
+                <Link to="/search"><button>Add a book</button></Link>
+              </div>
             </div>
-            <div className="open-search">
-              <Link to="/search"><button>Add a book</button></Link>
-            </div>
-          </div>
-        )}/>
-        <Route path="/search" render={() => (
-          <SearchBooks
-            shelves={this.state.bookshelves}
-            updateBookshelf={(book, targetShelf) => (
-              this.updateBookshelf(book, targetShelf)
-            )}
-          />
-        )}/>
+          )}/>
+          <Route path="/search" render={() => (
+            <SearchBooks
+              shelves={this.state.bookshelves}
+              updateBookshelf={(book, targetShelf) => (
+                this.updateBookshelf(book, targetShelf)
+              )}
+            />
+          )}/>
+          <Route component={Error_404} />
+        </Switch>
       </div>
     )
   }

@@ -65,16 +65,19 @@ class BooksItem extends Component {
           <li key={book.id}>
             <div className="book">
               <div className="book-top">
-                <div className="book-cover" style={
-                  {
-                    width: 128,
-                    height: 193,
-                    backgroundImage:
-                      `url("${book.imageLinks && book.imageLinks.smallThumbnail}"),
-                      url("./favicon.ico")`  // 缺省图片，当封面图加载后会被覆盖掉
+                <a className="book-cover" target="_blank" rel="noopener noreferrer"
+                  href={book.canonicalVolumeLink}
+                  style={
+                    {
+                      width: 128,
+                      height: 193,
+                      backgroundImage:
+                        `url("${book.imageLinks && book.imageLinks.smallThumbnail}"),
+                        url("./favicon.ico")`  // 缺省图片，当封面图加载后会被覆盖掉
+                    }
                   }
-                }></div>
-                <div className={`book-shelf-changer ${this.getLoadingCls(book.id)}`}>                
+                ></a>
+                <div className={`book-shelf-changer ${this.getLoadingCls(book.id)}`}>
                   <select
                     // 初始化赋值
                     value={book.shelf || this.getChangerVal(book.id, this.props.shelves)}
